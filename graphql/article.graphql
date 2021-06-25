@@ -1,0 +1,55 @@
+query UserArticles {
+  userArticle(userId: "USER_ID") {
+    ...ArticleData
+  }
+}
+
+query PublishedArticlesConnection {
+  publishedArticles(first: 20, orderBy: { field: title, direction: desc }) {
+    totalCount
+    edges {
+      cursor
+      node {
+        ...ArticleData
+        author {
+          ...UserData
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+mutation CreateArticle {
+  createArticle(data: { description: "Hello", title: "New Article" }) {
+    ...ArticleData
+  }
+}
+
+subscription SubscriptionArticle {
+  ArticleCreated {
+    ...ArticleData
+  }
+}
+
+fragment ArticleData on Article {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  description
+}
+
+fragment UserData on User {
+  id
+  email
+  firstname
+  lastname
+  role
+}

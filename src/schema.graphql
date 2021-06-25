@@ -16,6 +16,11 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
+input CreateIssueInput {
+  description: String!
+  title: String!
+}
+
 input CreatePostInput {
   content: String!
   title: String!
@@ -24,6 +29,17 @@ input CreatePostInput {
 """Date custom scalar type"""
 scalar Date
 
+type Issue {
+  createdAt: Date!
+  id: String!
+  updatedAt: Date!
+}
+
+type IssueEdge {
+  cursor: String!
+  node: Issue!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -31,6 +47,7 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createIssue(data: CreateIssueInput!): Issue!
   createPost(data: CreatePostInput!): Post!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
@@ -99,6 +116,7 @@ type Query {
   me: User!
   post(postId: String!): Post!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
+  userIssues(userId: String!): [Issue!]!
   userPosts(userId: String!): [Post!]!
 }
 
@@ -116,6 +134,7 @@ input SignupInput {
 }
 
 type Subscription {
+  issueCreated: Issue!
   postCreated: Post!
 }
 
@@ -138,6 +157,7 @@ type User {
   email: String!
   firstname: String
   id: ID!
+  issues: [Issue!]!
   lastname: String
   posts: [Post!]!
   role: Role!

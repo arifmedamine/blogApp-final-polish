@@ -1,0 +1,55 @@
+query UserIssues {
+  userIssues(userId: "USER_ID") {
+    ...IssueData
+  }
+}
+
+query PublishedIssuesConnection {
+  publishedIssues(first: 20, orderBy: { field: title, direction: desc }) {
+    totalCount
+    edges {
+      cursor
+      node {
+        ...IssueData
+        author {
+          ...UserData
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+mutation CreateIssue {
+  createIssue(data: { description: "Hello", title: "New Issue" }) {
+    ...IssueData
+  }
+}
+
+subscription SubscriptionIssue {
+  IssueCreated {
+    ...IssueData
+  }
+}
+
+fragment IssueData on Issue {
+  id
+  createdAt
+  updatedAt
+  published
+  title
+  description
+}
+
+fragment UserData on User {
+  id
+  email
+  firstname
+  lastname
+  role
+}

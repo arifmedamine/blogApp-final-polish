@@ -11,7 +11,10 @@ Table User {
   firstname String
   lastname String
   posts Post [not null]
+  aricles Article [not null]
+  issues Issue [not null]
   role Role [not null]
+  archive Archive
 }
 
 Table Post {
@@ -25,9 +28,62 @@ Table Post {
   authorId String
 }
 
+Table Article {
+  id String [pk]
+  title String
+  description String
+  published Boolean
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  author User
+  authorId String
+  issue Issue
+  issueId String
+  archive Archive [not null]
+}
+
+Table Issue {
+  id String [pk]
+  title String
+  description String
+  published Boolean [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  author User
+  authorId String
+  articles Article [not null]
+  archive Archive [not null]
+}
+
+Table Archive {
+  id String [pk]
+  user User
+  userId String
+  article Article [not null]
+  issue Issue [not null]
+}
+
+Table ArchiveToArticle {
+  archiveId String [ref: > Archive.id]
+  articleId String [ref: > Article.id]
+}
+
+Table ArchiveToIssue {
+  archiveId String [ref: > Archive.id]
+  issueId String [ref: > Issue.id]
+}
+
 Enum Role {
   ADMIN
   USER
 }
 
 Ref: Post.authorId > User.id
+
+Ref: Article.authorId > User.id
+
+Ref: Article.issueId > Issue.id
+
+Ref: Issue.authorId > User.id
+
+Ref: Archive.userId - User.id

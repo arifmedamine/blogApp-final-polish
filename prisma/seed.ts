@@ -9,15 +9,29 @@ async function main() {
 
   const user1 = await prisma.user.create({
     data: {
-      email: 'lisa@simpson.com',
-      firstname: 'Lisa',
-      lastname: 'Simpson',
+      email: 'aaaarrifmedamine@esprit.com',
+      firstname: 'Arif',
+      lastname: 'Amine',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
       role: 'USER',
       posts: {
         create: {
-          title: 'Join us for Prisma Day 2019 in Berlin',
+          title: 'Join us for Prisma Day 2021 in Tunisia',
           content: 'https://www.prisma.io/day/',
+          published: true,
+        },
+      },
+      issues: {
+        create: {
+          title: 'some issues',
+          description: 'some issues description',
+          published: true,
+        },
+      },
+      aricles: {
+        create: {
+          title: 'some article',
+          description: 'some article description',
           published: true,
         },
       },
@@ -25,9 +39,9 @@ async function main() {
   });
   const user2 = await prisma.user.create({
     data: {
-      email: 'bart@simpson.com',
-      firstname: 'Bart',
-      lastname: 'Simpson',
+      email: 'nnnnizarr@esprit.com',
+      firstname: 'Mejri',
+      lastname: 'Nijar',
       role: 'ADMIN',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
       posts: {
@@ -43,6 +57,31 @@ async function main() {
             published: false,
           },
         ],
+      },
+      issues: {
+        create: [{
+          title: 'some issues',
+          description: 'some issues description',
+          published: true,
+        },
+        {
+          title: 'some other issues',
+          description: 'some other issues description',
+          published: true,
+        },
+        {
+          title: 'some other other issues',
+          description: 'some other other issues description',
+          published: true,
+        },
+      ]
+      },
+      aricles: {
+        create: {
+          title: 'some article',
+          description: 'some article description',
+          published: true,
+        },
       },
     },
   });
