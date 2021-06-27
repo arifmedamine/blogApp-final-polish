@@ -12,6 +12,7 @@ import config from './configs/config';
 import { GraphqlConfig } from './configs/config.interface';
 import { IssueModule } from './resolvers/issues/issues.module';
 import { ArticleModule } from './resolvers/article/article.module';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ArticleModule } from './resolvers/article/article.module';
           debug: graphqlConfig.debug,
           playground: graphqlConfig.playgroundEnabled,
           context: ({ req }) => ({ req }),
+          
         };
       },
       inject: [ConfigService],

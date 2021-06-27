@@ -2,6 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Article {
+  createdAt: Date!
+  id: String!
+  updatedAt: Date!
+}
+
+type ArticleConnection {
+  edges: [ArticleEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ArticleEdge {
+  cursor: String!
+  node: Article!
+}
+
+input ArticleOrder {
+  direction: OrderDirection!
+  field: articleOrderField!
+}
+
 type Auth {
   """JWT access token"""
   accessToken: String!
@@ -14,6 +36,11 @@ type Auth {
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
+}
+
+input CreateArticleInput {
+  description: String!
+  title: String!
 }
 
 input CreateIssueInput {
@@ -35,9 +62,20 @@ type Issue {
   updatedAt: Date!
 }
 
+type IssueConnection {
+  edges: [IssueEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type IssueEdge {
   cursor: String!
   node: Issue!
+}
+
+input IssueOrder {
+  direction: OrderDirection!
+  field: issueOrderField!
 }
 
 input LoginInput {
@@ -47,6 +85,7 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createArticle(data: CreateArticleInput!): Article!
   createIssue(data: CreateIssueInput!): Issue!
   createPost(data: CreatePostInput!): Post!
   login(data: LoginInput!): Auth!
@@ -111,11 +150,17 @@ enum PostOrderField {
 }
 
 type Query {
+  article(articleId: String!): Article!
+  getAllIssues: [Issue!]!
   hello(name: String!): String!
   helloWorld: String!
+  issue(issueId: String!): Issue!
   me: User!
   post(postId: String!): Post!
+  publishedArticle(after: String, before: String, first: Int, last: Int, orderBy: ArticleOrder, query: String, skip: Int): ArticleConnection!
+  publishedIssues(after: String, before: String, first: Int, last: Int, orderBy: IssueOrder, query: String, skip: Int): IssueConnection!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
+  userArticle(userId: String!): [Article!]!
   userIssues(userId: String!): [Issue!]!
   userPosts(userId: String!): [Post!]!
 }
@@ -134,6 +179,7 @@ input SignupInput {
 }
 
 type Subscription {
+  ArticleCreated: Article!
   issueCreated: Issue!
   postCreated: Post!
 }
@@ -164,4 +210,24 @@ type User {
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
+}
+
+"""Properties by which article connections can be ordered."""
+enum articleOrderField {
+  createdAt
+  description
+  id
+  published
+  title
+  updatedAt
+}
+
+"""Properties by which issue connections can be ordered."""
+enum issueOrderField {
+  createdAt
+  description
+  id
+  published
+  title
+  updatedAt
 }

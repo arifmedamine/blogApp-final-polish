@@ -11,10 +11,10 @@ Table User {
   firstname String
   lastname String
   posts Post [not null]
-  aricles Article [not null]
-  issues Issue [not null]
   role Role [not null]
   archive Archive
+  aricles Article [not null]
+  issues Issue [not null]
 }
 
 Table Post {
@@ -35,10 +35,10 @@ Table Article {
   published Boolean
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime
-  author User
   authorId String
-  issue Issue
   issueId String
+  author User
+  issue Issue
   archive Archive [not null]
 }
 
@@ -49,16 +49,16 @@ Table Issue {
   published Boolean [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime
-  author User
   authorId String
+  author User
   articles Article [not null]
   archive Archive [not null]
 }
 
 Table Archive {
   id String [pk]
+  userId String [unique]
   user User
-  userId String
   article Article [not null]
   issue Issue [not null]
 }

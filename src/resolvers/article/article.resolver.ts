@@ -66,7 +66,7 @@ export class ArticleResolver {
     const a = await findManyCursorConnection(
       (args) =>
         this.prisma.article.findMany({
-          include: { author: false },
+          include: { author: true },
           where: {
             published: true,
             title: { contains: query || '' },
@@ -106,9 +106,5 @@ export class ArticleResolver {
     return this.prisma.article.findUnique({ where: { id: id.articleId } });
   }
 
-  @ResolveField('author')
-  async author(@Parent() article: Article) {
-    return this.prisma.article.findUnique({ where: { id: article.id } }).author();
-  }
 }
 

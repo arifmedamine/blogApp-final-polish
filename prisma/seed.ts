@@ -9,7 +9,7 @@ async function main() {
 
   const user1 = await prisma.user.create({
     data: {
-      email: 'aaaarrifmedamine@esprit.com',
+      email: 'arifmedamine@esprit.com',
       firstname: 'Arif',
       lastname: 'Amine',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
@@ -39,7 +39,7 @@ async function main() {
   });
   const user2 = await prisma.user.create({
     data: {
-      email: 'nnnnizarr@esprit.com',
+      email: 'nizar@esprit.com',
       firstname: 'Mejri',
       lastname: 'Nijar',
       role: 'ADMIN',

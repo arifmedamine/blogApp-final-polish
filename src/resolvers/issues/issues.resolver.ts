@@ -33,7 +33,7 @@ export class IssueResolver {
     return pubSub.asyncIterator('issueCreated');
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation((returns) => Issue)
   async createIssue(
     @UserEntity() user: User,
@@ -44,7 +44,7 @@ export class IssueResolver {
         published: true,
         title: data.title,
         description: data.description,
-        authorId: user.id,
+        // authorId: user.id,
       },
     });
     pubSub.publish('issueCreated', { issueCreated: newIssue });
@@ -66,7 +66,7 @@ export class IssueResolver {
     const a = await findManyCursorConnection(
       (args) =>
         this.prisma.issue.findMany({
-          include: { author: false },
+          include: { author: true },
           where: {
             published: true,
             title: { contains: query || '' },
@@ -84,6 +84,11 @@ export class IssueResolver {
       { first, last, before, after }
     );
     return a;
+  }
+
+  @Query(() => [Issue])
+  async getAllIssues() {
+    return await this.prisma.issue.findMany();
   }
 
   @Query((returns) => [Issue])
@@ -106,8 +111,4 @@ export class IssueResolver {
     return this.prisma.issue.findUnique({ where: { id: id.issueId } });
   }
 
-  @ResolveField('author')
-  async author(@Parent() issue: Issue) {
-    return this.prisma.issue.findUnique({ where: { id: issue.id } }).author();
-  }
 }
